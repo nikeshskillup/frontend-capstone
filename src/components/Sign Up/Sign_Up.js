@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Sign_Up.css';
+import { API_URL } from '../../config';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ const Signup = () => {
     email: '',
     password: '',
   });
-  
+
   const [errors, setErrors] = useState({
     phone: '',
   });
@@ -36,11 +37,55 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate(); // Navigation hook from react-router
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!errors.phone) {
-      // Submit the form
-      console.log('Form submitted:', formData);
+      try {
+        const response = await fetch(`${API_URL}/api/auth/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            phone: formData.phone,
+          }),
+        });
+
+        const json = await response.json();
+
+        if (json.authtoken) {
+          sessionStorage.setItem("auth-token", json.authtoken);
+          sessionStorage.setItem("name", formData.name);
+          sessionStorage.setItem("phone", formData.phone);
+          sessionStorage.setItem("email", formData.email);
+
+          navigate("/");
+          window.location.reload();
+        } else {
+          if (json.errors) {
+            setErrors({
+              ...errors,
+              phone: json.errors.map(error => error.msg).join(', '),
+            });
+          } else {
+            setErrors({
+              ...errors,
+              phone: json.error,
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch:', error);
+        setErrors({
+          ...errors,
+          phone: 'Failed to submit. Please try again later.',
+        });
+      }
     } else {
       console.log('Form contains errors:', errors);
     }

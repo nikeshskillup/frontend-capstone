@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from './Navbar/Navbar';
-import Landing_Page from './Landing_Page/Landing_Page';
-import Signup from './Sign Up/Sign_Up';
-import Login from './Login/Login';
+import Navbar from './components/Navbar/Navbar';
+import Landing_Page from './components/Landing_Page/Landing_Page';
+import Signup from './components/Sign Up/Sign_Up';
+import Login from './components/Login/Login';
 
 
 
