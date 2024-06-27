@@ -1,0 +1,26 @@
+/* Notification.css */
+
+.notification-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #f8d7da; /* Adjust the background color */
+    color: #721c24; /* Adjust the text color */
+    border: 1px solid #f5c6cb; /* Adjust the border color */
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .notification-content {
+    /* Add any additional styles as needed */
+  }
+  
+  .notification-title {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .notification-message {
+    margin-bottom: 5px;
+  }
+  
